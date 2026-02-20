@@ -2,7 +2,7 @@
 
 Custom marketing website built with [Astro](https://astro.build) for performance, SEO, and a clean, professional presentation.
 
-## Local developments
+## Local development
 
 ```bash
 npm install
