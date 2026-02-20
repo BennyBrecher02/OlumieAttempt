@@ -1,0 +1,40 @@
+---
+export type Props = {
+  src: string;
+  alt?: string;
+  height?: "compact" | "default";
+  align?: "center" | "top";
+  overlay?: "none" | "soft" | "strong";
+};
+
+const {
+  src,
+  alt = "",
+  height = "default",
+  align = "center",
+  overlay = "soft",
+} = Astro.props as Props;
+
+const heightClass = height === "compact" ? "h-40 sm:h-52" : "h-52 sm:h-64";
+const objectPos = align === "top" ? "object-top" : "object-center";
+const overlayClass =
+  overlay === "none"
+    ? "hidden"
+    : overlay === "strong"
+      ? "bg-gradient-to-b from-bg/20 via-bg/70 to-bg"
+      : "bg-gradient-to-b from-bg/10 via-bg/50 to-bg";
+---
+
+<section class="relative overflow-hidden">
+  <div class={`relative w-full ${heightClass}`}>
+    <img
+      src={src}
+      alt={alt}
+      class={`h-full w-full object-cover ${objectPos}`}
+      loading="eager"
+      decoding="async"
+    />
+    <div class={`pointer-events-none absolute inset-0 ${overlayClass}`} aria-hidden="true" />
+  </div>
+</section>
+

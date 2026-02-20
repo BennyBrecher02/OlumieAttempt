@@ -1,0 +1,81 @@
+---
+import Badge from "./Badge.astro";
+
+export type Props = {
+  eyebrow?: string;
+  title: string;
+  subtitle: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+};
+
+const {
+  eyebrow = "Private Investment Firm",
+  title,
+  subtitle,
+  primaryHref = "/contact",
+  primaryLabel = "Contact",
+  secondaryHref = "/about",
+  secondaryLabel = "Learn more",
+} = Astro.props as Props;
+---
+
+<section class="py-14 sm:py-20">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 container-px lg:grid-cols-[1.2fr_0.8fr]">
+    <div class="space-y-6">
+      <Badge tone="brand">{eyebrow}</Badge>
+      <h1 class="text-3xl font-semibold tracking-tight sm:text-5xl">
+        {title}
+      </h1>
+      <p class="max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+        {subtitle}
+      </p>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a
+          href={primaryHref}
+          class="inline-flex items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-brand/90"
+        >
+          {primaryLabel}
+        </a>
+        <a
+          href={secondaryHref}
+          class="inline-flex items-center justify-center rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-fg no-underline shadow-sm transition hover:bg-bg"
+        >
+          {secondaryLabel}
+        </a>
+      </div>
+      <p class="text-xs text-muted">
+        For informational purposes only. Not an offer to sell or a solicitation of an offer to buy any security.
+      </p>
+    </div>
+
+    <div class="surface p-6 sm:p-8">
+      <p class="text-xs font-semibold uppercase tracking-wider text-muted">
+        Investment philosophy
+      </p>
+      <div class="mt-4 space-y-4">
+        <div>
+          <p class="text-sm font-semibold">Disciplined underwriting</p>
+          <p class="text-sm leading-relaxed text-muted">
+            Focused diligence, conservative assumptions, and clear downside protection.
+          </p>
+        </div>
+        <div>
+          <p class="text-sm font-semibold">Operational alignment</p>
+          <p class="text-sm leading-relaxed text-muted">
+            Partnering with operators and stakeholders to improve execution and resilience.
+          </p>
+        </div>
+        <div>
+          <p class="text-sm font-semibold">Long-term orientation</p>
+          <p class="text-sm leading-relaxed text-muted">
+            Patient capital built for durable outcomes and responsible stewardship.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

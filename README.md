@@ -1,43 +1,69 @@
-# Astro Starter Kit: Minimal
+# Olumie Capital — Website
 
-```sh
-npm create astro@latest -- --template minimal
+Custom marketing website built with [Astro](https://astro.build) for performance, SEO, and a clean, professional presentation.
+
+## Local development
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Build + preview:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Content editing (no CMS needed)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+All primary content is driven by Markdown in `src/content/`:
 
-Any static assets, like images, can be placed in the `public/` directory.
+- **Updates / Blog posts**: `src/content/updates/*.md`
+- **Team profiles**: `src/content/team/*.md`
+- **Portfolio entries**: `src/content/portfolio/*.md`
 
-## 🧞 Commands
+## Environment variables
 
-All commands are run from the root of the project, from a terminal:
+Copy `.env.example` to `.env` and fill in values:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- **PUBLIC_SITE_URL**: Used for canonical URLs + sitemap generation (e.g. `https://olumiecapital.com`)
+- **PUBLIC_FORMSPREE_ENDPOINT**: Formspree endpoint URL (e.g. `https://formspree.io/f/xxxxxxx`)
+- **PUBLIC_CF_IMAGES_ACCOUNT_HASH** (optional): Cloudflare Images account hash for URL helpers
 
-## 👀 Want to learn more?
+## Contact form (Formspree)
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The contact page posts to Formspree using `PUBLIC_FORMSPREE_ENDPOINT`.
+After submission, it redirects to `/contact?sent=1` to show a success message.
+
+## Images (Cloudflare Images)
+
+This site is configured to use **Cloudflare Images delivery URLs** for major imagery.
+
+- **Central mapping**: `src/images.ts`
+- **Content-driven images**: `src/content/**` frontmatter (e.g., `heroImage`)
+- **Favicons** remain local under `public/` (`favicon.svg`, `favicon.ico`).
+
+`cloudflare/` is a local (gitignored) staging folder for drag-and-drop uploads.
+
+See `docs/cloudflare-images.md`.
+
+## Deploy to Vercel
+
+1. Push this repository to GitHub.
+2. In Vercel, **Import Project** → select the repo.
+3. Framework preset: **Astro** (auto-detected)
+4. Add env vars from your `.env` in Vercel Project Settings.
+5. Deploy.
+6. Add the domain `olumiecapital.com` in Vercel (Project → Settings → Domains).
+
+## DNS (GoDaddy typical setup)
+
+Vercel will show the exact DNS records to add. Commonly:
+
+- **Apex/root (`@`)**: A record → Vercel-provided IP
+- **`www`**: CNAME → Vercel-provided target
+
+After DNS propagates, Vercel will automatically provision **SSL**.
+

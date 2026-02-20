@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/Section.astro";
+import TeamGrid from "../../components/TeamGrid.astro";
+import { getCollection } from "astro:content";
+
+const entries = (await getCollection("team")).sort(
+  (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
+);
+---
+
+<BaseLayout title="Team">
+  <Section
+    eyebrow="Team"
+    title="A team built for diligence and execution"
+    description="Olumie Capital is supported by professionals with experience across underwriting, operations, and strategic execution. Team profiles can be updated as you finalize bios and headshots."
+  >
+    <TeamGrid entries={entries} />
+  </Section>
+</BaseLayout>
+

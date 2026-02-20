@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/Section.astro";
+import UpdateCard from "../../components/UpdateCard.astro";
+import { getCollection } from "astro:content";
+import PageBanner from "../../components/PageBanner.astro";
+import { IMAGES } from "../../images";
+
+const entries = (await getCollection("updates", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout title="Updates">
+  <PageBanner src={IMAGES.hero.updates} alt="" overlay="strong" height="compact" />
+  <Section
+    eyebrow="News & insights"
+    title="Investor updates and thought leadership"
+    description="Thought leadership and firm updates. Publish by adding Markdown to src/content/updates."
+  >
+    <p class="mb-6 text-sm text-muted">
+      <a href="/updates/rss.xml" class="text-brand no-underline hover:underline">RSS feed</a>
+    </p>
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {entries.map((e) => (
+        <UpdateCard entry={e} />
+      ))}
+    </div>
+  </Section>
+</BaseLayout>
+

@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Card from "./Card.astro";
+
+export type Props = {
+  entries: CollectionEntry<"team">[];
+};
+
+const { entries } = Astro.props as Props;
+---
+
+<div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+  {entries.map((e) => (
+    <Card title={e.data.name} description={e.data.role}>
+      {e.data.headshot ? (
+        <img
+          src={e.data.headshot}
+          alt={`${e.data.name} headshot`}
+          width="112"
+          height="112"
+          class="mb-4 h-14 w-14 rounded-full border border-border object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : null}
+      <p class="text-sm leading-relaxed text-muted">{e.data.bio}</p>
+      {e.data.linkedin && (
+        <a
+          href={e.data.linkedin}
+          class="mt-4 inline-flex text-sm font-medium text-brand no-underline hover:underline"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          LinkedIn
+        </a>
+      )}
+    </Card>
+  ))}
+</div>
+

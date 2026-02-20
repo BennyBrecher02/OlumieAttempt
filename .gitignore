@@ -6,6 +6,9 @@ dist/
 # dependencies
 node_modules/
 
+# local npm cache (used for sandboxed installs)
+.npm-cache/
+
 # logs
 npm-debug.log*
 yarn-debug.log*
@@ -22,3 +25,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Cloudflare upload staging (local copies of images)
+cloudflare/

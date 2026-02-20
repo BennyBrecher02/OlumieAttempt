@@ -1,0 +1,31 @@
+---
+export type Props = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  class?: string;
+};
+
+const { eyebrow, title, description, class: className = "" } =
+  Astro.props as Props;
+---
+
+<section class={`py-14 sm:py-18 ${className}`}>
+  <div class="mx-auto max-w-6xl container-px">
+    {(eyebrow || title || description) && (
+      <header class="mb-8 max-w-3xl space-y-3">
+        {eyebrow && (
+          <p class="text-xs font-semibold uppercase tracking-wider text-brand">
+            {eyebrow}
+          </p>
+        )}
+        {title && <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h2>}
+        {description && (
+          <p class="text-base leading-relaxed text-muted sm:text-lg">{description}</p>
+        )}
+      </header>
+    )}
+    <slot />
+  </div>
+</section>
+

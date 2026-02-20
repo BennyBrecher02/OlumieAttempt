@@ -1,0 +1,65 @@
+---
+import { NAV_LINKS, SITE_NAME } from "../consts";
+import { IMAGES } from "../images";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border">
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-brand/35 to-transparent" aria-hidden="true"></div>
+  <div class="mx-auto max-w-6xl py-12 container-px">
+    <div class="grid gap-10 md:grid-cols-[1.3fr_0.7fr_1fr]">
+      <div class="space-y-4">
+        <a href="/" class="inline-flex items-center gap-3 no-underline">
+          <img
+            src={IMAGES.brand.logo}
+            alt={SITE_NAME}
+            width="160"
+            height="42"
+            class="h-8 w-auto"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <p class="max-w-md text-sm leading-relaxed text-muted">
+          Private investing with a long-term view. Built for disciplined underwriting,
+          operational alignment, and durable value creation.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted">Explore</p>
+        <nav class="flex flex-col gap-2">
+          {NAV_LINKS.map((l) => (
+            <a href={l.href} class="text-sm text-muted no-underline hover:text-fg">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <div class="space-y-3">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted">Legal</p>
+        <div class="flex flex-col gap-2">
+          <a href="/disclosures" class="text-sm text-muted no-underline hover:text-fg">
+            Disclosures
+          </a>
+          <a href="/privacy" class="text-sm text-muted no-underline hover:text-fg">
+            Privacy Policy
+          </a>
+          <a href="/terms" class="text-sm text-muted no-underline hover:text-fg">
+            Terms of Use
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {SITE_NAME}. All rights reserved.</p>
+      <p class="text-xs">
+        This website is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any security.
+      </p>
+    </div>
+  </div>
+</footer>
+

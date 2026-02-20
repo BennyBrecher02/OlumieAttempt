@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Card from "./Card.astro";
+import Badge from "./Badge.astro";
+
+export type Props = {
+  entries: CollectionEntry<"portfolio">[];
+};
+
+const { entries } = Astro.props as Props;
+---
+
+<div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+  {entries.map((e) => (
+    <Card
+      title={e.data.name}
+      description={e.data.relationship ?? undefined}
+      href={e.data.website}
+      class={e.data.website ? "" : ""}
+    >
+      {e.data.logo ? (
+        <img
+          src={e.data.logo}
+          alt={`${e.data.name} logo`}
+          width="160"
+          height="48"
+          class="mb-3 h-8 w-auto opacity-90"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : null}
+      <div class="mt-3 flex flex-wrap items-center gap-2">
+        {e.data.sector ? <Badge>{e.data.sector}</Badge> : null}
+      </div>
+      <p class="mt-4 text-sm leading-relaxed text-muted">{e.data.description}</p>
+    </Card>
+  ))}
+</div>
+

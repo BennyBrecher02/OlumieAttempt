@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+---
+
+<BaseLayout title="Privacy Policy">
+  <Section
+    eyebrow="Legal"
+    title="Privacy Policy"
+    description="Replace this template with your final policy (or link to your counsel-approved document)."
+  >
+    <div class="surface p-6 sm:p-8">
+      <div class="prose prose-slate max-w-none dark:prose-invert">
+        <h3>Overview</h3>
+        <p>
+          We respect your privacy. This page describes what information we may collect, how we use it, and the choices you may have.
+        </p>
+
+        <h3>Information we collect</h3>
+        <ul>
+          <li>Information you provide via forms (e.g., name, email, message).</li>
+          <li>Basic analytics data (if enabled) to understand site usage.</li>
+        </ul>
+
+        <h3>How we use information</h3>
+        <ul>
+          <li>To respond to inquiries and communicate with you.</li>
+          <li>To improve our website and services.</li>
+        </ul>
+
+        <h3>Third-party services</h3>
+        <p>
+          We may use third-party providers for hosting, forms, analytics, and security. Their use of information is governed by their
+          respective policies.
+        </p>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+

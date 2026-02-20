@@ -1,0 +1,94 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import Section from "../../components/Section.astro";
+import Card from "../../components/Card.astro";
+import PageBanner from "../../components/PageBanner.astro";
+import { IMAGES } from "../../images";
+---
+
+<BaseLayout title="About">
+  <PageBanner src={IMAGES.hero.about} alt="" overlay="strong" />
+  <Hero
+    eyebrow="About Olumie Capital"
+    title="A disciplined, partner-oriented investment platform."
+    subtitle="We take a long-term view and prioritize clarity, alignment, and responsible stewardship. Our work is defined by rigorous diligence and a focus on durable outcomes."
+    primaryHref="/contact"
+    primaryLabel="Contact"
+    secondaryHref="/portfolio"
+    secondaryLabel="View portfolio"
+  />
+
+  <Section
+    eyebrow="Principles"
+    title="How we operate"
+    description="We aim to be a trusted counterparty—focused on transparency, consistent process, and thoughtful execution."
+    class="pt-0"
+  >
+    <div class="surface mb-6 overflow-hidden">
+      <img
+        src={IMAGES.sections.aboutOffice}
+        alt=""
+        width="1600"
+        height="1200"
+        class="h-auto w-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="grid items-start gap-6 lg:grid-cols-12">
+      <figure class="surface aspect-[4/3] overflow-hidden lg:col-span-5">
+        <img
+          src={IMAGES.tiles.valuesFinance}
+          alt="A professional reviewing financial reports and performance charts."
+          width="1024"
+          height="1024"
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+
+      <div class="grid auto-rows-fr gap-5 lg:col-span-7 sm:grid-cols-2">
+        <Card
+          title="Integrity"
+          description="We prioritize straightforward communication and accountability throughout the investment lifecycle."
+        />
+        <Card
+          title="Discipline"
+          description="We pursue opportunities with clear underwriting, sensible structure, and defined risk management."
+        />
+        <div class="sm:col-span-2">
+          <Card
+            title="Stewardship"
+            description="We aim to strengthen the underlying businesses and assets while considering stakeholders and communities."
+          />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section
+    eyebrow="Focus"
+    title="Where we look"
+    description="We are sector- and structure-aware, and we evaluate opportunities where operational alignment and patient capital can improve long-term outcomes."
+  >
+    <div class="grid gap-5 md:grid-cols-2">
+      <Card title="Special situations">
+        <ul class="mt-2 list-disc space-y-2 pl-5 text-sm text-muted">
+          <li>Transitional environments where clarity and execution matter</li>
+          <li>Complexity that creates opportunity for disciplined investors</li>
+          <li>Partnerships that benefit from operational support</li>
+        </ul>
+      </Card>
+      <Card title="Partnership approach">
+        <ul class="mt-2 list-disc space-y-2 pl-5 text-sm text-muted">
+          <li>Alignment with stakeholders and long-term incentives</li>
+          <li>Collaborative diligence and transparent decision-making</li>
+          <li>Commitment to responsible, repeatable process</li>
+        </ul>
+      </Card>
+    </div>
+  </Section>
+</BaseLayout>
+

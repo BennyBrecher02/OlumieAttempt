@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import Section from "../../components/Section.astro";
+import Badge from "../../components/Badge.astro";
+import PortfolioGrid from "../../components/PortfolioGrid.astro";
+import PageBanner from "../../components/PageBanner.astro";
+import { getCollection } from "astro:content";
+import { IMAGES } from "../../images";
+
+const entries = (await getCollection("portfolio")).sort(
+  (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
+);
+---
+
+<BaseLayout title="Portfolio">
+  <PageBanner src={IMAGES.hero.portfolio} alt="" overlay="strong" />
+  <Hero
+    eyebrow="Portfolio"
+    title="Partnerships and investments"
+    subtitle="A curated view of investments and partnerships. This page is designed to be data-driven from a simple content folder so you can add or remove entries quickly."
+    primaryHref="/contact"
+    primaryLabel="Discuss an opportunity"
+    secondaryHref="/updates"
+    secondaryLabel="Investor updates"
+  />
+
+  <Section
+    eyebrow="Focus areas"
+    title="Themes we care about"
+    description="These are example themes—replace them with your real focus areas and preferred structures."
+    class="pt-0"
+  >
+    <div class="flex flex-wrap gap-2">
+      <Badge tone="brand">Operational improvement</Badge>
+      <Badge>Governance</Badge>
+      <Badge>Resilience</Badge>
+      <Badge>Stakeholder alignment</Badge>
+      <Badge tone="accent">Long-term outcomes</Badge>
+    </div>
+  </Section>
+
+  <Section
+    eyebrow="Selected"
+    title="Investments and partnerships"
+    description="Update this page by adding Markdown entries to src/content/portfolio."
+  >
+    <PortfolioGrid entries={entries} />
+  </Section>
+</BaseLayout>
+

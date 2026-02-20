@@ -1,0 +1,36 @@
+@import "./theme.css";
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-fg antialiased;
+  }
+
+  ::selection {
+    background: rgb(var(--color-brand) / 0.25);
+  }
+
+  a {
+    @apply underline-offset-4;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-brand) / 0.75);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .container-px {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .surface {
+    @apply rounded-2xl border border-border bg-card shadow-sm;
+  }
+}

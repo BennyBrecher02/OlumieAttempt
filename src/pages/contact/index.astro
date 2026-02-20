@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/Section.astro";
+import Card from "../../components/Card.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import PageBanner from "../../components/PageBanner.astro";
+import { IMAGES } from "../../images";
+---
+
+<BaseLayout title="Contact">
+  <PageBanner src={IMAGES.hero.contact} alt="" overlay="strong" height="compact" />
+  <Section
+    eyebrow="Contact"
+    title="Start a conversation"
+    description="Share a few details and we’ll route your note to the right person."
+  >
+    <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+      <div class="surface p-6 sm:p-8">
+        <ContactForm />
+      </div>
+
+      <div class="space-y-6">
+        <Card title="Email">
+          <p class="text-sm text-muted">
+            Prefer email? Add a monitored inbox here, e.g. <span class="font-medium">info@olumiecapital.com</span>.
+          </p>
+        </Card>
+        <Card title="Location">
+          <p class="text-sm text-muted">
+            Add your primary office location details and (optional) a map embed.
+          </p>
+          <div class="mt-4 overflow-hidden rounded-xl border border-border bg-bg">
+            <iframe
+              title="Office location map"
+              class="h-64 w-full"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-64.8352778%2C18.29%2C-64.8152778%2C18.31&layer=mapnik&marker=18.3%2C-64.8252778"
+            ></iframe>
+          </div>
+          <p class="mt-3 text-xs text-muted">
+            <a
+              class="font-medium text-brand hover:underline"
+              href="https://www.openstreetmap.org/?mlat=18.3&mlon=-64.8252778#map=15/18.3/-64.8252778"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View larger map
+            </a>
+            <span class="mx-2 text-border">•</span>
+            <span class="font-mono">18°18'0&quot;N 64°49'31&quot;W</span>
+          </p>
+        </Card>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+

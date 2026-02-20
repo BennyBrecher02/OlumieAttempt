@@ -1,0 +1,30 @@
+:root {
+  /* Tailwind token bridge (space-separated RGB) */
+  color-scheme: light;
+  --color-bg: 248 250 252;
+  --color-fg: 15 23 42;
+  --color-muted: 71 85 105;
+  --color-card: 255 255 255;
+  --color-border: 226 232 240;
+
+  /* Brand */
+  --color-brand: 9 74 91; /* deep teal */
+  --color-brand-2: 8 145 178; /* cyan */
+  --color-accent: 161 98 7; /* amber */
+
+  --radius: 16px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: 2 6 23;
+  --color-fg: 226 232 240;
+  --color-muted: 148 163 184;
+  --color-card: 15 23 42;
+  --color-border: 30 41 59;
+
+  --color-brand: 20 184 166;
+  --color-brand-2: 34 211 238;
+  --color-accent: 245 158 11;
+}
+

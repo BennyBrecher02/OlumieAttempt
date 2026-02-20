@@ -1,17 +1,43 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import Card from "../components/Card.astro";
+import PageBanner from "../components/PageBanner.astro";
+import { IMAGES } from "../images";
 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <PageBanner src={IMAGES.hero.home} alt="" overlay="strong" />
+  <Hero
+    title="Disciplined capital for complex opportunities."
+    subtitle="Olumie Capital partners across special situations and transitional environments where thoughtful underwriting and decisive execution can create long-term value."
+    primaryLabel="Start a conversation"
+    primaryHref="/contact"
+    secondaryLabel="Our approach"
+    secondaryHref="/about"
+  />
+
+  <Section
+    eyebrow="What we do"
+    title="A focused approach to durable value creation"
+    description="We look for opportunities where structure, operational support, and patient capital can strengthen assets and businesses over the long term."
+    class="pt-0"
+  >
+    <div class="grid gap-5 md:grid-cols-3">
+      <Card
+        title="Special situations"
+        description="Complexity creates mispricing. We pursue opportunities with clear paths to stability and upside."
+      />
+      <Card
+        title="Operational alignment"
+        description="We work alongside stakeholders to improve execution, governance, and resilience."
+      />
+      <Card
+        title="Stewardship"
+        description="Integrity, transparency, and accountability underpin every transaction and partnership."
+      />
+    </div>
+  </Section>
+</BaseLayout>
