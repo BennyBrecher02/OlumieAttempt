@@ -10,9 +10,43 @@ const {
 };
 
 const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT as string | undefined;
+
+const { searchParams } = Astro.url;
+const subscribed = searchParams.get("subscribed") === "1";
+const redirectTo = (() => {
+  const url = new URL(Astro.url);
+  url.searchParams.set("subscribed", "1");
+  url.hash = "";
+  return url.toString();
+})();
 ---
 
 <div class="surface p-6 sm:p-8">
+  <div
+    class:list={[
+      "mb-4 overflow-hidden transition-[max-height,opacity] duration-300 ease-out",
+      subscribed ? "max-h-40 opacity-100" : "max-h-0 opacity-0",
+    ]}
+  >
+    <div
+      class="surface border-brand/30 bg-brand/5 p-4 text-sm"
+      role="status"
+      aria-live="polite"
+      tabindex="-1"
+      data-newsletter-success
+    >
+      <p class="font-semibold">Subscribed.</p>
+      <p class="mt-1 text-muted">Thanks—we’ll share occasional updates. You can unsubscribe any time.</p>
+    </div>
+  </div>
+
+  <div class="mb-4 hidden" role="alert" aria-live="assertive" data-newsletter-error>
+    <div class="surface border-accent/30 bg-accent/5 p-4 text-sm">
+      <p class="font-semibold">We couldn’t subscribe you.</p>
+      <p class="mt-1 text-muted" data-newsletter-error-text>Please try again in a moment.</p>
+    </div>
+  </div>
+
   <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
     <div class="max-w-xl">
       <p class="text-sm font-semibold">{title}</p>
@@ -29,9 +63,12 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT as string | undefined
       method="POST"
       action={endpoint ?? "#"}
       class="grid w-full gap-3 sm:max-w-md sm:grid-cols-[1fr_auto]"
+      data-formspree="newsletter"
     >
       <input type="hidden" name="source" value={source} />
       <input type="hidden" name="kind" value="newsletter" />
+      <input type="hidden" name="_subject" value="Olumie Capital — Newsletter signup" />
+      <input type="hidden" name="_next" value={redirectTo} />
       <label class="sr-only" for="newsletter-email">Email</label>
       <input
         id="newsletter-email"
@@ -41,6 +78,7 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT as string | undefined
         autocomplete="email"
         placeholder="you@company.com"
         class="h-11 w-full rounded-xl border border-border bg-bg px-4 text-sm text-fg shadow-sm outline-none transition focus:border-brand/60"
+        disabled={!endpoint}
       />
 
       <div class="hidden" aria-hidden="true">
@@ -55,9 +93,112 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT as string | undefined
         class="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand/90 disabled:opacity-60"
         disabled={!endpoint}
       >
-        Subscribe
+        <span class="inline-flex items-center gap-2">
+          <svg
+            class="hidden h-4 w-4 animate-spin text-white/90"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            data-newsletter-spinner
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+              fill="none"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            />
+          </svg>
+          <span data-newsletter-submit-label>Subscribe</span>
+        </span>
       </button>
     </form>
   </div>
 </div>
+
+<script is:inline>
+  (() => {
+    const forms = Array.from(document.querySelectorAll('form[data-formspree="newsletter"]'));
+    if (!forms.length) return;
+
+    for (const form of forms) {
+      const endpoint = form.getAttribute("action");
+      if (!endpoint || endpoint === "#") continue;
+
+      const root = form.closest(".surface");
+      if (!root) continue;
+
+      const successEl = root.querySelector("[data-newsletter-success]");
+      const errorWrap = root.querySelector("[data-newsletter-error]");
+      const errorText = root.querySelector("[data-newsletter-error-text]");
+      const spinner = form.querySelector("[data-newsletter-spinner]");
+      const submitLabel = form.querySelector("[data-newsletter-submit-label]");
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      const showSuccess = () => {
+        const wrap = successEl?.parentElement;
+        if (!wrap) return;
+        wrap.classList.remove("max-h-0", "opacity-0");
+        wrap.classList.add("max-h-40", "opacity-100");
+        if (successEl && typeof successEl.focus === "function") successEl.focus();
+      };
+
+      const showError = (message) => {
+        if (errorText) errorText.textContent = message;
+        if (errorWrap) errorWrap.classList.remove("hidden");
+      };
+
+      const hideError = () => {
+        if (errorWrap) errorWrap.classList.add("hidden");
+      };
+
+      const setSubmitting = (isSubmitting) => {
+        form.toggleAttribute("aria-busy", isSubmitting);
+        if (submitButton) submitButton.toggleAttribute("disabled", isSubmitting);
+        if (spinner) spinner.classList.toggle("hidden", !isSubmitting);
+        if (submitLabel) submitLabel.textContent = isSubmitting ? "Subscribing…" : "Subscribe";
+      };
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        hideError();
+        setSubmitting(true);
+
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+          });
+
+          if (res.ok) {
+            form.reset();
+            showSuccess();
+
+            const url = new URL(window.location.href);
+            url.searchParams.set("subscribed", "1");
+            history.replaceState({}, "", url.toString());
+
+            setSubmitting(false);
+            if (submitButton) submitButton.setAttribute("disabled", "");
+            if (submitLabel) submitLabel.textContent = "Subscribed";
+            return;
+          }
+
+          setSubmitting(false);
+          showError("Please try again in a moment.");
+        } catch {
+          setSubmitting(false);
+          showError("Network error—please try again.");
+        }
+      });
+    }
+  })();
+</script>
 
