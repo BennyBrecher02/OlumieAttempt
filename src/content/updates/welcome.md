@@ -1,8 +1,11 @@
 ---
 title: "Welcome"
 pubDate: 2026-02-19
+updatedDate: 2026-02-19
 description: "A quick introduction to Olumie Capital and what to expect from future updates."
 author: "Olumie Capital"
+type: "firm"
+featured: true
 tags:
   - "firm"
   - "updates"

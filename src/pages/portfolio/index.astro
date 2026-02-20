@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
 import Section from "../../components/Section.astro";
+import Card from "../../components/Card.astro";
 import Badge from "../../components/Badge.astro";
 import PortfolioGrid from "../../components/PortfolioGrid.astro";
 import PageBanner from "../../components/PageBanner.astro";
@@ -11,14 +12,24 @@ import { IMAGES } from "../../images";
 const entries = (await getCollection("portfolio")).sort(
   (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
 );
+
+const sectors = Array.from(
+  new Set(entries.map((e) => e.data.sector).filter((s): s is string => !!s?.trim())),
+).slice(0, 8);
+
+const relationships = Array.from(
+  new Set(
+    entries.map((e) => e.data.relationship).filter((r): r is string => !!r?.trim()),
+  ),
+).slice(0, 6);
 ---
 
 <BaseLayout title="Portfolio">
   <PageBanner src={IMAGES.hero.portfolio} alt="" overlay="strong" />
   <Hero
     eyebrow="Portfolio"
-    title="Partnerships and investments"
-    subtitle="A curated view of investments and partnerships. This page is designed to be data-driven from a simple content folder so you can add or remove entries quickly."
+    title="Investments and partnerships"
+    subtitle="A clear, professional view of selected investments and strategic partnerships—organized for readability and credibility."
     primaryHref="/contact"
     primaryLabel="Discuss an opportunity"
     secondaryHref="/updates"
@@ -26,26 +37,161 @@ const entries = (await getCollection("portfolio")).sort(
   />
 
   <Section
-    eyebrow="Focus areas"
-    title="Themes we care about"
-    description="These are example themes—replace them with your real focus areas and preferred structures."
+    eyebrow="Overview"
+    title="A structured view of investments and partnerships"
+    description="This page is intentionally simple: clear relationship context, concise thesis snapshots, and a consistent format that scales as the portfolio grows."
     class="pt-0"
   >
-    <div class="flex flex-wrap gap-2">
-      <Badge tone="brand">Operational improvement</Badge>
-      <Badge>Governance</Badge>
-      <Badge>Resilience</Badge>
-      <Badge>Stakeholder alignment</Badge>
-      <Badge tone="accent">Long-term outcomes</Badge>
+    <div class="grid gap-5 lg:grid-cols-3">
+      <Card
+        title="Relationship context"
+        description="Clarifies how we’re involved (investment, partnership, advisory, etc.)."
+      />
+      <Card
+        title="Thesis snapshot"
+        description="A concise view of fit, value drivers, and what matters operationally."
+      />
+      <Card
+        title="Credible presentation"
+        description="No gimmicks—just consistent, readable entries with optional company links."
+      />
     </div>
+
+    <div class="mt-6 grid gap-5 lg:grid-cols-2">
+      <div class="surface p-6">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted">Focus areas</p>
+        <p class="mt-2 text-sm text-muted">
+          We invest where disciplined underwriting and operational alignment can compound outcomes over time.
+        </p>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-muted">
+          <li>Special situations and transitional environments</li>
+          <li>Operational improvement and governance</li>
+          <li>Stakeholder-aligned partnership structures</li>
+        </ul>
+      </div>
+
+      <div class="surface p-6">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted">Engagement types</p>
+        <p class="mt-2 text-sm text-muted">
+          Examples of how we partner. Replace these with your exact mandate language.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <Badge tone="brand">Investment</Badge>
+          <Badge>Strategic partnership</Badge>
+          <Badge>Advisory</Badge>
+          <Badge tone="accent">Special situations</Badge>
+        </div>
+      </div>
+    </div>
+
+    {(sectors.length || relationships.length) && (
+      <div class="mt-6 surface p-6">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted">
+          Portfolio metadata
+        </p>
+        <p class="mt-2 text-sm text-muted">
+          Derived from your portfolio entries. These are labels (not filters).
+        </p>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-muted">Sectors</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {sectors.length ? sectors.map((s) => <Badge>{s}</Badge>) : <Badge>—</Badge>}
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-muted">Relationships</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {relationships.length
+                ? relationships.map((r) => <Badge>{r}</Badge>)
+                : <Badge>—</Badge>}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
   </Section>
 
   <Section
-    eyebrow="Selected"
-    title="Investments and partnerships"
-    description="Update this page by adding Markdown entries to src/content/portfolio."
+    eyebrow="Showcase"
+    title="Selected investments & partnerships"
+    description="A curated selection. Add or edit entries in src/content/portfolio to keep this page up to date."
   >
-    <PortfolioGrid entries={entries} />
+    {entries.length ? (
+      <PortfolioGrid entries={entries} />
+    ) : (
+      <div class="surface p-6 sm:p-8">
+        <p class="text-sm font-semibold">No portfolio entries yet.</p>
+        <p class="mt-2 text-sm text-muted">
+          Add a Markdown file under <span class="font-mono">src/content/portfolio</span> and it will appear here automatically.
+        </p>
+        <div class="mt-4 grid gap-3 md:grid-cols-2">
+          <div class="rounded-xl border border-border bg-bg p-4 text-sm text-muted">
+            <p class="font-semibold text-fg">Suggested fields</p>
+            <p class="mt-1">
+              name, relationship, sector (optional), description, website (optional), logo (optional)
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-bg p-4 text-sm text-muted">
+            <p class="font-semibold text-fg">Tip</p>
+            <p class="mt-1">
+              Keep descriptions short (1–2 sentences). The goal is credibility and clarity.
+            </p>
+          </div>
+        </div>
+      </div>
+    )}
+  </Section>
+
+  <Section
+    eyebrow="For founders and partners"
+    title="What to include when reaching out"
+    description="A small amount of context helps us respond quickly and route your note appropriately."
+  >
+    <div class="grid gap-5 md:grid-cols-3">
+      <Card title="Snapshot" description="What you do, where you operate, and why now." />
+      <Card title="Structure" description="Capital need, timeline, and preferred partnership structure." />
+      <Card title="Materials" description="Deck/one-pager, financials (if available), and key stakeholders." />
+    </div>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between surface p-6">
+      <div>
+        <p class="text-sm font-semibold">Interested in partnering?</p>
+        <p class="mt-1 text-sm text-muted">
+          We review inbound opportunities on a rolling basis.
+        </p>
+      </div>
+      <a
+        href="/contact"
+        class="relative inline-flex items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-brand/90"
+      >
+        <svg
+          class="pointer-events-none absolute inset-0 h-full w-full opacity-60"
+          viewBox="0 0 100 40"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <line
+            x1="3"
+            y1="3"
+            x2="50"
+            y2="11"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+          <line
+            x1="97"
+            y1="3"
+            x2="50"
+            y2="11"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span class="relative z-10">Contact Olumie Capital</span>
+      </a>
+    </div>
   </Section>
 </BaseLayout>
 

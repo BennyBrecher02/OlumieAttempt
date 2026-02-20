@@ -15,8 +15,6 @@ const { entries } = Astro.props as Props;
     <Card
       title={e.data.name}
       description={e.data.relationship ?? undefined}
-      href={e.data.website}
-      class={e.data.website ? "" : ""}
     >
       {e.data.logo ? (
         <img
@@ -33,6 +31,16 @@ const { entries } = Astro.props as Props;
         {e.data.sector ? <Badge>{e.data.sector}</Badge> : null}
       </div>
       <p class="mt-4 text-sm leading-relaxed text-muted">{e.data.description}</p>
+      {e.data.website ? (
+        <a
+          href={e.data.website}
+          class="mt-4 inline-flex text-sm font-semibold text-brand no-underline hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit website →
+        </a>
+      ) : null}
     </Card>
   ))}
 </div>

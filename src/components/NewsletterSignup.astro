@@ -1,0 +1,63 @@
+---
+const {
+  source = "site",
+  title = "Get updates",
+  description = "Occasional notes from Olumie Capital. No spam.",
+} = Astro.props as {
+  source?: string;
+  title?: string;
+  description?: string;
+};
+
+const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT as string | undefined;
+---
+
+<div class="surface p-6 sm:p-8">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div class="max-w-xl">
+      <p class="text-sm font-semibold">{title}</p>
+      <p class="mt-1 text-sm text-muted">{description}</p>
+      {!endpoint ? (
+        <p class="mt-3 text-sm text-muted">
+          <span class="font-semibold text-fg">Note:</span> Set{" "}
+          <span class="font-mono">PUBLIC_FORMSPREE_ENDPOINT</span> to enable this form.
+        </p>
+      ) : null}
+    </div>
+
+    <form
+      method="POST"
+      action={endpoint ?? "#"}
+      class="grid w-full gap-3 sm:max-w-md sm:grid-cols-[1fr_auto]"
+    >
+      <input type="hidden" name="source" value={source} />
+      <input type="hidden" name="kind" value="newsletter" />
+      <label class="sr-only" for="newsletter-email">Email</label>
+      <input
+        id="newsletter-email"
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="you@company.com"
+        class="h-11 w-full rounded-xl border border-border bg-bg px-4 text-sm text-fg shadow-sm outline-none transition focus:border-brand/60"
+      />
+
+      <div class="hidden" aria-hidden="true">
+        <label>
+          Company
+          <input name="company" tabindex="-1" autocomplete="off" />
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        class="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand/90 disabled:opacity-60"
+        disabled={!endpoint}
+      >
+        Subscribe
+      </button>
+    </form>
+  </div>
+</div>
+

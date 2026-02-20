@@ -45,7 +45,8 @@ This site is configured to use **Cloudflare Images delivery URLs** for major ima
 - **Content-driven images**: `src/content/**` frontmatter (e.g., `heroImage`)
 - **Favicons** remain local under `public/` (`favicon.svg`, `favicon.ico`).
 
-`cloudflare/` is a local (gitignored) staging folder for drag-and-drop uploads.
+- **Do not commit local content images** under `public/` (they should live in Cloudflare and be referenced by URL).
+- `cloudflare/` is a local (gitignored) staging folder for drag-and-drop uploads/sources.
 
 See `docs/cloudflare-images.md`.
 

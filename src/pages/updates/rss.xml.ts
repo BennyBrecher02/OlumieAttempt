@@ -16,6 +16,11 @@ export async function GET(context: { site?: URL }) {
       pubDate: entry.data.pubDate,
       description: entry.data.description,
       link: `/updates/${entry.slug}`,
+      categories: [
+        entry.data.type === "insight" ? "Insights" : "Firm updates",
+        ...(entry.data.series ? [entry.data.series] : []),
+        ...(entry.data.tags ?? []),
+      ],
     })),
   });
 }

@@ -12,6 +12,7 @@ export const IMAGES = {
   },
   sections: {
     aboutOffice: "https://imagedelivery.net/6dHOzf06qZ1ZCzzgoCY8Vw/94ca491e-b601-402e-66e8-90a3b9b3c700/public",
+    homeSkyscrapers: "https://imagedelivery.net/6dHOzf06qZ1ZCzzgoCY8Vw/5a2be16e-025c-42bd-f5d0-9e83a7de5600/public",
   },
   updates: {
     defaultOg: "https://imagedelivery.net/6dHOzf06qZ1ZCzzgoCY8Vw/5e1b9f84-9bbb-4f43-7505-eb407cc14100/public",
